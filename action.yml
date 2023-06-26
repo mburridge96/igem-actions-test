@@ -13,6 +13,11 @@ runs:
             python -m pip install --upgrade pip
             pip install -r ${{ github.action_path }}/scripts/requirements.txt
 
+        - uses: ./.github/actions/directories_and_excel
+        - uses: ./.github/actions/retrieve_parts
+        - uses: ./.github/actions/build_packages
+        - uses: ./.github/actions/build_distribution
+
 author: iGEM-Engineering
 branding:
     icon:  'layers'
