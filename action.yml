@@ -5,20 +5,27 @@ runs:
     steps:
         - name: Check out this repository for building
           uses: actions/checkout@v3
+
         - name: Set up Python 3.9
           uses: actions/setup-python@v4
           with:
             python-version: 3.9
+
+        - name: Set up Node.js 14
+          uses: actions/setup-node@v3
+          with:
+            node-version: '14'
+
         - name: Install dependencies
           shell: bash
           run: |
             python -m pip install --upgrade pip
             pip install -r ${{ github.action_path }}/scripts/requirements.txt
 
-        - uses: ${{ github.action_path }}/.github/actions/directories_and_excel
-        - uses: ${{ github.action_path }}/.github/actions/retrieve_parts
-        - uses: ${{ github.action_path }}/.github/actions/build_packages
-        - uses: ${{ github.action_path }}/.github/actions/build_distribution
+        - name: Run distribution build 
+          shell: bash
+          run: bash ${{ github.action_path }}/entrypoint.sh
+
 
 author: iGEM-Engineering
 branding:
