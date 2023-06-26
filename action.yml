@@ -22,10 +22,41 @@ runs:
             python -m pip install --upgrade pip
             pip install -r ${{ github.action_path }}/scripts/requirements.txt
 
-        - name: Run distribution build 
+        - name: Regularize directories
           shell: bash
-          run: bash ${{ github.action_path }}/entrypoint.sh
+          run: python3 ${{ github.action_path }}/scripts/regularize_directories.py
 
+        - name: Update CSVs
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/export_csvs.py
+
+        - name: Update SBOL
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/export_sbol.py
+
+        - name: Import parts and devices
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/import_parts.py
+
+        - name: Convert SBOL2 imports to SBOL3
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/convert_sbol_2to3.py
+
+        - name: Collate packages
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/collate_packages.py
+
+        - name: Create vector build plans
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/expand_combinations.py
+
+        - name: Generate markdown from packages
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/generate_markdown.py
+
+        - name: Build distribution
+          shell: bash
+          run: python3 ${{ github.action_path }}/scripts/build_distribution.py
 
 author: iGEM-Engineering
 branding:
