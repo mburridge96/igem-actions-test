@@ -3,6 +3,8 @@ description: A Github action to generate a distribution from user-readable files
 runs:
     using: composite
     steps:
+        - name: Check out this repository for building
+          uses: actions/checkout@v3
         - name: Set up Python 3.9
           uses: actions/setup-python@v4
           with:
@@ -13,10 +15,10 @@ runs:
             python -m pip install --upgrade pip
             pip install -r ${{ github.action_path }}/scripts/requirements.txt
 
-        - uses: ./.github/actions/directories_and_excel
-        - uses: ./.github/actions/retrieve_parts
-        - uses: ./.github/actions/build_packages
-        - uses: ./.github/actions/build_distribution
+        - uses: ${{ github.action_path }}/.github/actions/directories_and_excel
+        - uses: ${{ github.action_path }}/.github/actions/retrieve_parts
+        - uses: ${{ github.action_path }}/.github/actions/build_packages
+        - uses: ${{ github.action_path }}/.github/actions/build_distribution
 
 author: iGEM-Engineering
 branding:
